@@ -51,7 +51,7 @@ current_instruction_index:
 	.section	.rodata
 	.align	2
 .LC0:
-	.ascii	"usage: %s *.ws\012\000"
+	.ascii	"usage: %s *.whitespace\012\000"
 	.text
 	.align	2
 	.global	main
