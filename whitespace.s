@@ -4013,5 +4013,4 @@ ws_io_inn:
 	.word	_GLOBAL_OFFSET_TABLE_-(.LPIC274+8)
 	.size	ws_io_inn, .-ws_io_inn
 	.global	__aeabi_ldivmod
-	.ident	"GCC: (GNU) 14.1.1 20240507"
 	.section	.note.GNU-stack,"",%progbits
