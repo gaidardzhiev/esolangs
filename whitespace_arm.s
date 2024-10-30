@@ -47,8 +47,6 @@ current_instruction_index:
 	.arm
 	.type	main, %function
 main:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #16
@@ -147,7 +145,6 @@ main:
 .L10:
 	mov	r0, r3
 	sub	sp, fp, #4
-	@ sp needed
 	pop	{fp, pc}
 .L12:
 	.align	2
@@ -168,8 +165,6 @@ main:
 	.arm
 	.type	read_source_file, %function
 read_source_file:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #16
@@ -242,7 +237,6 @@ read_source_file:
 .L17:
 	mov	r0, r3
 	sub	sp, fp, #4
-	@ sp needed
 	pop	{fp, pc}
 .L19:
 	.align	2
@@ -255,8 +249,6 @@ read_source_file:
 	.arm
 	.type	remove_comments, %function
 remove_comments:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, fp, lr}
 	add	fp, sp, #12
 	sub	sp, sp, #16
@@ -270,19 +262,19 @@ remove_comments:
 	ldr	r3, [fp, #-16]
 	ldr	r2, [fp, #-24]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #9
 	beq	.L22
 	ldr	r3, [fp, #-16]
 	ldr	r2, [fp, #-24]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #10
 	beq	.L22
 	ldr	r3, [fp, #-16]
 	ldr	r2, [fp, #-24]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #32
 	beq	.L22
 	ldr	r3, [fp, #-16]
@@ -317,7 +309,7 @@ remove_comments:
 	ldr	r3, [fp, #-16]
 	ldr	r2, [fp, #-24]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #0
 	bne	.L23
 	ldr	r0, [fp, #-24]
@@ -331,7 +323,6 @@ remove_comments:
 	strb	r2, [r3]
 	nop
 	sub	sp, fp, #12
-	@ sp needed
 	pop	{r4, r5, fp, pc}
 	.size	remove_comments, .-remove_comments
 	.align	2
@@ -340,8 +331,6 @@ remove_comments:
 	.arm
 	.type	create_stack, %function
 create_stack:
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	mov	r1, #8
@@ -390,9 +379,6 @@ create_stack:
 	.arm
 	.type	stack_push, %function
 stack_push:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #12
@@ -431,7 +417,6 @@ stack_push:
 .L32:
 	mov	r0, r3
 	add	sp, fp, #0
-	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
 .L34:
@@ -449,9 +434,6 @@ stack_push:
 	.arm
 	.type	stack_pop, %function
 stack_pop:
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	ldr	r3, .L38
@@ -484,16 +466,15 @@ stack_pop:
 	sub	r3, r3, #-536870911
 	lsl	r3, r3, #3
 	add	r3, r2, r3
-	vldr.64	d16, [r3]	@ int
+	vldr.64	d16, [r3]
 	b	.L37
 .L36:
 	vmov.i32	d16, #0  @ di
 .L37:
-	vmov	r2, r3, d16	@ int
+	vmov	r2, r3, d16
 	mov	r0, r2
 	mov	r1, r3
 	add	sp, fp, #0
-	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
 .L39:
@@ -512,9 +493,6 @@ stack_pop:
 	.arm
 	.type	stack_peak, %function
 stack_peak:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #12
@@ -543,16 +521,15 @@ stack_peak:
 	add	r3, r1, r3
 	lsl	r3, r3, #3
 	add	r3, r2, r3
-	vldr.64	d16, [r3]	@ int
+	vldr.64	d16, [r3]
 	b	.L42
 .L41:
 	vmov.i32	d16, #0  @ di
 .L42:
-	vmov	r2, r3, d16	@ int
+	vmov	r2, r3, d16
 	mov	r0, r2
 	mov	r1, r3
 	add	sp, fp, #0
-	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
 .L44:
@@ -569,8 +546,6 @@ stack_peak:
 	.arm
 	.type	cleanup_stack, %function
 cleanup_stack:
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	ldr	r3, .L47
@@ -592,8 +567,6 @@ cleanup_stack:
 	.arm
 	.type	create_heap, %function
 create_heap:
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	mov	r1, #8
@@ -661,9 +634,6 @@ create_heap:
 	.arm
 	.type	heap_put, %function
 heap_put:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #28
@@ -775,9 +745,6 @@ heap_put:
 	.arm
 	.type	heap_get, %function
 heap_get:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #20
@@ -980,7 +947,6 @@ cleanup_label_table:
 	bl	free(PLT)
 	nop
 	sub	sp, fp, #4
-	@ sp needed
 	pop	{fp, pc}
 .L86:
 	.align	2
@@ -1070,8 +1036,6 @@ cleanup_label_table:
 	.arm
 	.type	create_instruction_set, %function
 create_instruction_set:
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	mov	r1, #4
@@ -1834,8 +1798,6 @@ create_instruction_set:
 	.arm
 	.type	cleanup_instruction_set, %function
 cleanup_instruction_set:
-	@ args = 0, pretend = 0, frame = 0
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	ldr	r3, .L93
@@ -1871,8 +1833,6 @@ cleanup_instruction_set:
 	.arm
 	.type	locate_jump_labels, %function
 locate_jump_labels:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, fp, lr}
 	add	fp, sp, #8
 	sub	sp, sp, #28
@@ -1901,7 +1861,7 @@ locate_jump_labels:
 	sub	r3, r3, #1
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #9
 	beq	.L97
 	ldr	r3, .L103+4
@@ -1942,7 +1902,7 @@ locate_jump_labels:
 	ldr	r1, [r3]
 	ldr	r3, [fp, #-24]
 	add	r3, r1, r3
-	ldrb	r2, [r2]	@ zero_extendqisi2
+	ldrb	r2, [r2]
 	strb	r2, [r3]
 	ldr	r3, [fp, #-24]
 	add	r3, r3, #1
@@ -1954,7 +1914,7 @@ locate_jump_labels:
 	mov	r2, r3
 	ldr	r3, [fp, #-32]
 	add	r3, r3, r2
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #10
 	bne	.L100
 	ldr	r2, [fp, #-20]
@@ -1986,7 +1946,7 @@ locate_jump_labels:
 	ldr	r3, [fp, #-20]
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #0
 	bne	.L102
 	ldr	r3, .L103+16
@@ -2015,9 +1975,6 @@ locate_jump_labels:
 	.arm
 	.type	add_ret_addr, %function
 add_ret_addr:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #20
@@ -2061,7 +2018,6 @@ add_ret_addr:
 .L110:
 	mov	r0, r3
 	add	sp, fp, #0
-	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
 .L112:
@@ -2076,9 +2032,6 @@ add_ret_addr:
 	.arm
 	.type	get_last_ret_addr, %function
 get_last_ret_addr:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #20
@@ -2118,12 +2071,11 @@ get_last_ret_addr:
 	lsl	r3, r3, #3
 	add	r3, r2, r3
 	vmov.i32	d16, #0  @ di
-	vstr.64	d16, [r3]	@ int
+	vstr.64	d16, [r3]
 	ldrd	r2, [fp, #-12]
 	mov	r0, r2
 	mov	r1, r3
 	add	sp, fp, #0
-	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
 .L119:
@@ -2139,8 +2091,6 @@ get_last_ret_addr:
 	.arm
 	.type	step_through_program, %function
 step_through_program:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, fp, lr}
 	add	fp, sp, #16
 	sub	sp, sp, #20
@@ -2240,14 +2190,13 @@ step_through_program:
 	ldrd	r2, [r3]
 	ldr	r3, [fp, #-32]
 	add	r3, r3, r2
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #0
 	bne	.L127
 	nop
 .L129:
 	nop
 	sub	sp, fp, #16
-	@ sp needed
 	pop	{r4, r5, r6, fp, pc}
 .L131:
 	.align	2
@@ -2269,8 +2218,6 @@ step_through_program:
 	.arm
 	.type	convert_ws_to_number, %function
 convert_ws_to_number:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #24
@@ -2292,7 +2239,7 @@ convert_ws_to_number:
 	ldr	r3, [fp, #-44]
 	ldr	r2, [fp, #-48]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #9
 	bne	.L135
 	mov	r2, #1
@@ -2317,7 +2264,7 @@ convert_ws_to_number:
 	cmp	r3, #0
 	bgt	.L136
 	ldr	r3, [fp, #-48]
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #9
 	bne	.L133
 	ldrd	r2, [fp, #-36]
@@ -2329,7 +2276,6 @@ convert_ws_to_number:
 	mov	r0, r2
 	mov	r1, r3
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 	.size	convert_ws_to_number, .-convert_ws_to_number
 	.align	2
@@ -2338,8 +2284,6 @@ convert_ws_to_number:
 	.arm
 	.type	retrieve_label_or_number, %function
 retrieve_label_or_number:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #16
@@ -2390,7 +2334,6 @@ retrieve_label_or_number:
 .L141:
 	mov	r0, r3
 	sub	sp, fp, #4
-	@ sp needed
 	pop	{fp, pc}
 	.size	retrieve_label_or_number, .-retrieve_label_or_number
 	.align	2
@@ -2399,8 +2342,6 @@ retrieve_label_or_number:
 	.arm
 	.type	ws_stack_push, %function
 ws_stack_push:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #24
@@ -2473,7 +2414,6 @@ ws_stack_push:
 	bl	__stack_chk_fail(PLT)
 .L145:
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L148:
 	.align	2
@@ -2490,8 +2430,6 @@ ws_stack_push:
 	.arm
 	.type	ws_stack_dup, %function
 ws_stack_dup:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #8
@@ -2534,8 +2472,6 @@ ws_stack_dup:
 	.arm
 	.type	ws_stack_copy, %function
 ws_stack_copy:
-	@ args = 0, pretend = 0, frame = 32
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #32
@@ -2631,7 +2567,6 @@ ws_stack_copy:
 	bl	__stack_chk_fail(PLT)
 .L157:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L159:
 	.align	2
@@ -2650,8 +2585,6 @@ ws_stack_copy:
 	.arm
 	.type	ws_stack_swap, %function
 ws_stack_swap:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #24
@@ -2681,7 +2614,6 @@ ws_stack_swap:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L163:
 	.align	2
@@ -2695,8 +2627,6 @@ ws_stack_swap:
 	.arm
 	.type	ws_stack_discard, %function
 ws_stack_discard:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #8
@@ -2719,7 +2649,6 @@ ws_stack_discard:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L167:
 	.align	2
@@ -2733,8 +2662,6 @@ ws_stack_discard:
 	.arm
 	.type	ws_stack_slide, %function
 ws_stack_slide:
-	@ args = 0, pretend = 0, frame = 48
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #48
@@ -2838,7 +2765,6 @@ ws_stack_slide:
 	bl	__stack_chk_fail(PLT)
 .L174:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L176:
 	.align	2
@@ -2857,8 +2783,6 @@ ws_stack_slide:
 	.arm
 	.type	ws_math_add, %function
 ws_math_add:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #24
@@ -2891,7 +2815,6 @@ ws_math_add:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L180:
 	.align	2
@@ -2905,8 +2828,6 @@ ws_math_add:
 	.arm
 	.type	ws_math_sub, %function
 ws_math_sub:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #24
@@ -2939,7 +2860,6 @@ ws_math_sub:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L184:
 	.align	2
@@ -2953,8 +2873,6 @@ ws_math_sub:
 	.arm
 	.type	ws_math_mult, %function
 ws_math_mult:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #24
@@ -2995,7 +2913,6 @@ ws_math_mult:
 	strd	r8, [r3]
 	nop
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L188:
 	.align	2
@@ -3009,8 +2926,6 @@ ws_math_mult:
 	.arm
 	.type	ws_math_div, %function
 ws_math_div:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #24
@@ -3044,7 +2959,6 @@ ws_math_div:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L192:
 	.align	2
@@ -3058,8 +2972,6 @@ ws_math_div:
 	.arm
 	.type	ws_math_mod, %function
 ws_math_mod:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #24
@@ -3091,7 +3003,6 @@ ws_math_mod:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L196:
 	.align	2
@@ -3105,8 +3016,6 @@ ws_math_mod:
 	.arm
 	.type	ws_heap_store, %function
 ws_heap_store:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #24
@@ -3135,7 +3044,6 @@ ws_heap_store:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L200:
 	.align	2
@@ -3149,8 +3057,6 @@ ws_heap_store:
 	.arm
 	.type	ws_heap_retrieve, %function
 ws_heap_retrieve:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #8
@@ -3183,7 +3089,6 @@ ws_heap_retrieve:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L204:
 	.align	2
@@ -3197,9 +3102,6 @@ ws_heap_retrieve:
 	.arm
 	.type	ws_flow_mark, %function
 ws_flow_mark:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	push	{r4, r5, r6, r7, fp}
 	add	fp, sp, #16
 	sub	sp, sp, #20
@@ -3216,7 +3118,7 @@ ws_flow_mark:
 	ldr	r3, [fp, #-24]
 	ldr	r2, [fp, #-32]
 	add	r3, r2, r3
-	ldrb	r3, [r3]	@ zero_extendqisi2
+	ldrb	r3, [r3]
 	cmp	r3, #10
 	bne	.L207
 	ldr	r3, [fp, #-24]
@@ -3236,7 +3138,6 @@ ws_flow_mark:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #16
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp}
 	bx	lr
 .L210:
@@ -3251,8 +3152,6 @@ ws_flow_mark:
 	.arm
 	.type	ws_flow_call, %function
 ws_flow_call:
-	@ args = 0, pretend = 0, frame = 56
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #56
@@ -3346,7 +3245,6 @@ ws_flow_call:
 	bl	__stack_chk_fail(PLT)
 .L216:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L218:
 	.align	2
@@ -3363,8 +3261,6 @@ ws_flow_call:
 	.arm
 	.type	ws_flow_jump, %function
 ws_flow_jump:
-	@ args = 0, pretend = 0, frame = 24
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #24
@@ -3470,7 +3366,6 @@ ws_flow_jump:
 	bl	__stack_chk_fail(PLT)
 .L227:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L229:
 	.align	2
@@ -3491,8 +3386,6 @@ ws_flow_jump:
 	.arm
 	.type	ws_flow_jz, %function
 ws_flow_jz:
-	@ args = 0, pretend = 0, frame = 32
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #32
@@ -3581,7 +3474,6 @@ ws_flow_jz:
 	bl	__stack_chk_fail(PLT)
 .L235:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L237:
 	.align	2
@@ -3600,8 +3492,6 @@ ws_flow_jz:
 	.arm
 	.type	ws_flow_jn, %function
 ws_flow_jn:
-	@ args = 0, pretend = 0, frame = 32
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #32
@@ -3690,7 +3580,6 @@ ws_flow_jn:
 	bl	__stack_chk_fail(PLT)
 .L243:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L245:
 	.align	2
@@ -3709,8 +3598,6 @@ ws_flow_jn:
 	.arm
 	.type	ws_flow_ret, %function
 ws_flow_ret:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{fp, lr}
 	add	fp, sp, #4
 	sub	sp, sp, #8
@@ -3725,7 +3612,6 @@ ws_flow_ret:
 	strd	r2, [r1]
 	nop
 	sub	sp, fp, #4
-	@ sp needed
 	pop	{fp, pc}
 .L249:
 	.align	2
@@ -3738,9 +3624,6 @@ ws_flow_ret:
 	.arm
 	.type	ws_flow_exit, %function
 ws_flow_exit:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
-	@ link register save eliminated.
 	str	fp, [sp, #-4]!
 	add	fp, sp, #0
 	sub	sp, sp, #12
@@ -3750,10 +3633,9 @@ ws_flow_exit:
 .LPIC261:
 	add	r3, pc, r3
 	vmov.i32	d16, #0xffffffff  @ di
-	vstr.64	d16, [r3]	@ int
+	vstr.64	d16, [r3]
 	nop
 	add	sp, fp, #0
-	@ sp needed
 	ldr	fp, [sp], #4
 	bx	lr
 .L253:
@@ -3767,8 +3649,6 @@ ws_flow_exit:
 	.arm
 	.type	ws_io_outc, %function
 ws_io_outc:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, fp, lr}
 	add	fp, sp, #20
 	sub	sp, sp, #8
@@ -3796,7 +3676,6 @@ ws_io_outc:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #20
-	@ sp needed
 	pop	{r4, r5, r6, r7, fp, pc}
 .L257:
 	.align	2
@@ -3815,8 +3694,6 @@ ws_io_outc:
 	.arm
 	.type	ws_io_outn, %function
 ws_io_outn:
-	@ args = 0, pretend = 0, frame = 8
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, fp, lr}
 	add	fp, sp, #24
 	sub	sp, sp, #12
@@ -3871,8 +3748,6 @@ ws_io_outn:
 	.arm
 	.type	ws_io_inc, %function
 ws_io_inc:
-	@ args = 0, pretend = 0, frame = 16
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #16
@@ -3906,7 +3781,6 @@ ws_io_inc:
 	strd	r6, [r3]
 	nop
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L265:
 	.align	2
@@ -3925,8 +3799,6 @@ ws_io_inc:
 	.arm
 	.type	ws_io_inn, %function
 ws_io_inn:
-	@ args = 0, pretend = 0, frame = 40
-	@ frame_needed = 1, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, r8, r9, fp, lr}
 	add	fp, sp, #28
 	sub	sp, sp, #40
@@ -3988,7 +3860,6 @@ ws_io_inn:
 	bl	__stack_chk_fail(PLT)
 .L268:
 	sub	sp, fp, #28
-	@ sp needed
 	pop	{r4, r5, r6, r7, r8, r9, fp, pc}
 .L270:
 	.align	2
