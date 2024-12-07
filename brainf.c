@@ -9,57 +9,57 @@ typedef struct {
 	size_t p;
 } b;
 
-void ii(b *interpreter) {
-	interpreter->m = (unsigned char *)calloc(MEM, sizeof(unsigned char));
-	interpreter->s = MEM;
-	interpreter->p = 0;
+void ii(b *i) {
+	i->m = (unsigned char *)calloc(MEM, sizeof(unsigned char));
+	i->s = MEM;
+	i->p = 0;
 }
 
-void expand_memory(b *interpreter) {
-	size_t new_size = interpreter->s * 2;
-	interpreter->m = (unsigned char *)realloc(interpreter->m, new_size);
-	if (interpreter->m == NULL) {
+void expand_memory(b *i) {
+	size_t new_size = i->s * 2;
+	i->m = (unsigned char *)realloc(i->m, new_size);
+	if (i->m == NULL) {
 		fprintf(stderr, "memory allocation failed\n");
 		exit(EXIT_FAILURE);
 	}
-	interpreter->s = new_size;
+	i->s = new_size;
 }
 
 void interpret(const char *code) {
-	b interpreter;
-	ii(&interpreter);
+	b i;
+	ii(&i);
 	const char *pc = code;
 	size_t loop;
 
 	while (*pc) {
 		switch (*pc) {
 		case '>':
-			interpreter.p++;
-			if (interpreter.p >= interpreter.s) {
-				expand_memory(&interpreter);
+			i.p++;
+			if (i.p >= i.s) {
+				expand_memory(&i);
 			}
 			break;
 		case '<':
-			if (interpreter.p == 0) {
+			if (i.p == 0) {
 				fprintf(stderr, "pointer underflow\n");
 				exit(EXIT_FAILURE);
 			}
-			interpreter.p--;
+			i.p--;
 			break;
 		case '+':
-			interpreter.m[interpreter.p]++;
+			i.m[i.p]++;
 			break;
 		case '-':
-			interpreter.m[interpreter.p]--;
+			i.m[i.p]--;
 			break;
 		case '.':
-			putchar(interpreter.m[interpreter.p]);
+			putchar(i.m[i.p]);
 			break;
 		case ',':
-			interpreter.m[interpreter.p] = getchar();
+			i.m[i.p] = getchar();
 			break;
 		case '[':
-			if (interpreter.m[interpreter.p] == 0) {
+			if (i.m[i.p] == 0) {
 				loop = 1;
 				while (loop > 0) {
 					pc++;
@@ -69,7 +69,7 @@ void interpret(const char *code) {
 			}
 			break;
 		case ']':
-			if (interpreter.m[interpreter.p] != 0) {
+			if (i.m[i.p] != 0) {
 				loop = 1;
 				while (loop > 0) {
 					pc--;
@@ -82,7 +82,7 @@ void interpret(const char *code) {
 		pc++;
 	}
 
-	free(interpreter.m);
+	free(i.m);
 }
 
 int main(int argc, char *argv[]) {
