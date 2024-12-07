@@ -4,14 +4,14 @@
 #define MEM 65536
 
 typedef struct {
-	unsigned char *memory;
+	unsigned char *m;
 	size_t size;
 	size_t pointer;
 } brainfunk;
 
 void init_interpreter(brainfunk *interpreter)
 {
-	interpreter->memory = (unsigned char *)calloc(MEM, sizeof(unsigned char));
+	interpreter->m = (unsigned char *)calloc(MEM, sizeof(unsigned char));
 	interpreter->size = MEM;
 	interpreter->pointer = 0;
 }
@@ -19,8 +19,8 @@ void init_interpreter(brainfunk *interpreter)
 void expand_memory(brainfunk *interpreter)
 {
 	size_t new_size = interpreter->size * 2;
-	interpreter->memory = (unsigned char *)realloc(interpreter->memory, new_size);
-	if (interpreter->memory == NULL) {
+	interpreter->m = (unsigned char *)realloc(interpreter->m, new_size);
+	if (interpreter->m == NULL) {
 		fprintf(stderr, "memory allocation failed\n");
 		exit(EXIT_FAILURE);
 	}
@@ -50,19 +50,19 @@ void interpret(const char *code)
 			interpreter.pointer--;
 			break;
 		case '+':
-			interpreter.memory[interpreter.pointer]++;
+			interpreter.m[interpreter.pointer]++;
 			break;
 		case '-':
-			interpreter.memory[interpreter.pointer]--;
+			interpreter.m[interpreter.pointer]--;
 			break;
 		case '.':
-			putchar(interpreter.memory[interpreter.pointer]);
+			putchar(interpreter.m[interpreter.pointer]);
 			break;
 		case ',':
-			interpreter.memory[interpreter.pointer] = getchar();
+			interpreter.m[interpreter.pointer] = getchar();
 			break;
 		case '[':
-			if (interpreter.memory[interpreter.pointer] == 0) {
+			if (interpreter.m[interpreter.pointer] == 0) {
 				loop = 1;
 				while (loop > 0) {
 					pc++;
@@ -72,7 +72,7 @@ void interpret(const char *code)
 			}
 			break;
 		case ']':
-			if (interpreter.memory[interpreter.pointer] != 0) {
+			if (interpreter.m[interpreter.pointer] != 0) {
 				loop = 1;
 				while (loop > 0) {
 					pc--;
@@ -85,7 +85,7 @@ void interpret(const char *code)
 		pc++;
 	}
 
-	free(interpreter.memory);
+	free(interpreter.m);
 }
 
 int main(int argc, char *argv[])
