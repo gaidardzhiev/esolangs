@@ -25,7 +25,7 @@ void exm(b *i) {
 	i->s = ns;
 }
 
-void interpret(const char *code) {
+void p(const char *code) {
 	b i;
 	ii(&i);
 	const char *pc = code;
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 	fread(code, 1, length, file);
 	code[length] = '\0';
 	fclose(file);
-	interpret(code);
+	p(code);
 	free(code);
 	return EXIT_SUCCESS;
 }
