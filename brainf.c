@@ -29,7 +29,7 @@ void p(const char *c) {
 	b i;
 	ii(&i);
 	const char *pc = c;
-	size_t loop;
+	size_t l;
 
 	while (*pc) {
 		switch (*pc) {
@@ -60,21 +60,21 @@ void p(const char *c) {
 			break;
 		case '[':
 			if (i.m[i.p] == 0) {
-				loop = 1;
-				while (loop > 0) {
+				l = 1;
+				while (l > 0) {
 					pc++;
-					if (*pc == '[') loop++;
-					if (*pc == ']') loop--;
+					if (*pc == '[') l++;
+					if (*pc == ']') l--;
 				}
 			}
 			break;
 		case ']':
 			if (i.m[i.p] != 0) {
-				loop = 1;
-				while (loop > 0) {
+				l = 1;
+				while (l > 0) {
 					pc--;
-					if (*pc == '[') loop--;
-					if (*pc == ']') loop++;
+					if (*pc == '[') l--;
+					if (*pc == ']') l++;
 				}
 			}
 			break;
