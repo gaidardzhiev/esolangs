@@ -90,18 +90,18 @@ int main(int z, char *x[]) {
 		fprintf(stderr, "usage: %s <file.bf>\n", x[0]);
 		return EXIT_FAILURE;
 	}
-	FILE *file = fopen(x[1], "r");
-	if (!file) {
+	FILE *f = fopen(x[1], "r");
+	if (!f) {
 		perror("failed to open file");
 		return EXIT_FAILURE;
 	}
-	fseek(file, 0, SEEK_END);
-	long length = ftell(file);
-	fseek(file, 0, SEEK_SET);
+	fseek(f, 0, SEEK_END);
+	long length = ftell(f);
+	fseek(f, 0, SEEK_SET);
 	char *c = (char *)malloc(length + 1);
-	fread(c, 1, length, file);
+	fread(c, 1, length, f);
 	c[length] = '\0';
-	fclose(file);
+	fclose(f);
 	p(c);
 	free(c);
 	return EXIT_SUCCESS;
