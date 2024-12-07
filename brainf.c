@@ -25,10 +25,10 @@ void exm(b *i) {
 	i->s = ns;
 }
 
-void p(const char *code) {
+void p(const char *c) {
 	b i;
 	ii(&i);
-	const char *pc = code;
+	const char *pc = c;
 	size_t loop;
 
 	while (*pc) {
@@ -98,11 +98,11 @@ int main(int z, char *x[]) {
 	fseek(file, 0, SEEK_END);
 	long length = ftell(file);
 	fseek(file, 0, SEEK_SET);
-	char *code = (char *)malloc(length + 1);
-	fread(code, 1, length, file);
-	code[length] = '\0';
+	char *c = (char *)malloc(length + 1);
+	fread(c, 1, length, file);
+	c[length] = '\0';
 	fclose(file);
-	p(code);
-	free(code);
+	p(c);
+	free(c);
 	return EXIT_SUCCESS;
 }
