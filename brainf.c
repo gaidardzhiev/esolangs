@@ -96,11 +96,11 @@ int main(int z, char *x[]) {
 		return EXIT_FAILURE;
 	}
 	fseek(f, 0, SEEK_END);
-	long length = ftell(f);
+	long ln = ftell(f);
 	fseek(f, 0, SEEK_SET);
-	char *c = (char *)malloc(length + 1);
-	fread(c, 1, length, f);
-	c[length] = '\0';
+	char *c = (char *)malloc(ln + 1);
+	fread(c, 1, ln, f);
+	c[ln] = '\0';
 	fclose(f);
 	p(c);
 	free(c);
