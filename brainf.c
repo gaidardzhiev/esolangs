@@ -19,7 +19,7 @@ void exm(b *i) {
 	size_t ns = i->s * 2;
 	i->m = (unsigned char *)realloc(i->m, ns);
 	if (i->m == NULL) {
-		fprintf(stderr, "memory allocation failed\n");
+		fprintf(stderr, "memory allocation failed...\n");
 		exit(EXIT_FAILURE);
 	}
 	i->s = ns;
