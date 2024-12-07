@@ -5,26 +5,26 @@
 
 typedef struct {
 	unsigned char *m;
-	size_t size;
+	size_t s;
 	size_t pointer;
 } brainfunk;
 
 void init_interpreter(brainfunk *interpreter)
 {
 	interpreter->m = (unsigned char *)calloc(MEM, sizeof(unsigned char));
-	interpreter->size = MEM;
+	interpreter->s = MEM;
 	interpreter->pointer = 0;
 }
 
 void expand_memory(brainfunk *interpreter)
 {
-	size_t new_size = interpreter->size * 2;
+	size_t new_size = interpreter->s * 2;
 	interpreter->m = (unsigned char *)realloc(interpreter->m, new_size);
 	if (interpreter->m == NULL) {
 		fprintf(stderr, "memory allocation failed\n");
 		exit(EXIT_FAILURE);
 	}
-	interpreter->size = new_size;
+	interpreter->s = new_size;
 }
 
 void interpret(const char *code)
@@ -38,7 +38,7 @@ void interpret(const char *code)
 		switch (*pc) {
 		case '>':
 			interpreter.pointer++;
-			if (interpreter.pointer >= interpreter.size) {
+			if (interpreter.pointer >= interpreter.s) {
 				expand_memory(&interpreter);
 			}
 			break;
