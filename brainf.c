@@ -85,12 +85,12 @@ void p(const char *code) {
 	free(i.m);
 }
 
-int main(int argc, char *argv[]) {
-	if (argc < 2) {
-		fprintf(stderr, "usage: %s <file.bf>\n", argv[0]);
+int main(int z, char *x[]) {
+	if (z < 2) {
+		fprintf(stderr, "usage: %s <file.bf>\n", x[0]);
 		return EXIT_FAILURE;
 	}
-	FILE *file = fopen(argv[1], "r");
+	FILE *file = fopen(x[1], "r");
 	if (!file) {
 		perror("failed to open file");
 		return EXIT_FAILURE;
