@@ -9,7 +9,7 @@ typedef struct {
 	size_t p;
 } b;
 
-void init_interpreter(b *interpreter) {
+void ii(b *interpreter) {
 	interpreter->m = (unsigned char *)calloc(MEM, sizeof(unsigned char));
 	interpreter->s = MEM;
 	interpreter->p = 0;
@@ -27,7 +27,7 @@ void expand_memory(b *interpreter) {
 
 void interpret(const char *code) {
 	b interpreter;
-	init_interpreter(&interpreter);
+	ii(&interpreter);
 	const char *pc = code;
 	size_t loop;
 
