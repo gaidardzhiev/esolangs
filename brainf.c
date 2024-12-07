@@ -6,14 +6,14 @@
 typedef struct {
 	unsigned char *m;
 	size_t s;
-	size_t pointer;
+	size_t p;
 } brainfunk;
 
 void init_interpreter(brainfunk *interpreter)
 {
 	interpreter->m = (unsigned char *)calloc(MEM, sizeof(unsigned char));
 	interpreter->s = MEM;
-	interpreter->pointer = 0;
+	interpreter->p = 0;
 }
 
 void expand_memory(brainfunk *interpreter)
@@ -37,32 +37,32 @@ void interpret(const char *code)
 	while (*pc) {
 		switch (*pc) {
 		case '>':
-			interpreter.pointer++;
-			if (interpreter.pointer >= interpreter.s) {
+			interpreter.p++;
+			if (interpreter.p >= interpreter.s) {
 				expand_memory(&interpreter);
 			}
 			break;
 		case '<':
-			if (interpreter.pointer == 0) {
+			if (interpreter.p == 0) {
 				fprintf(stderr, "pointer underflow\n");
 				exit(EXIT_FAILURE);
 			}
-			interpreter.pointer--;
+			interpreter.p--;
 			break;
 		case '+':
-			interpreter.m[interpreter.pointer]++;
+			interpreter.m[interpreter.p]++;
 			break;
 		case '-':
-			interpreter.m[interpreter.pointer]--;
+			interpreter.m[interpreter.p]--;
 			break;
 		case '.':
-			putchar(interpreter.m[interpreter.pointer]);
+			putchar(interpreter.m[interpreter.p]);
 			break;
 		case ',':
-			interpreter.m[interpreter.pointer] = getchar();
+			interpreter.m[interpreter.p] = getchar();
 			break;
 		case '[':
-			if (interpreter.m[interpreter.pointer] == 0) {
+			if (interpreter.m[interpreter.p] == 0) {
 				loop = 1;
 				while (loop > 0) {
 					pc++;
@@ -72,7 +72,7 @@ void interpret(const char *code)
 			}
 			break;
 		case ']':
-			if (interpreter.m[interpreter.pointer] != 0) {
+			if (interpreter.m[interpreter.p] != 0) {
 				loop = 1;
 				while (loop > 0) {
 					pc--;
