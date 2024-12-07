@@ -92,7 +92,7 @@ int main(int z, char *x[]) {
 	}
 	FILE *f = fopen(x[1], "r");
 	if (!f) {
-		perror("failed to open file");
+		perror("failed to open file...");
 		return EXIT_FAILURE;
 	}
 	fseek(f, 0, SEEK_END);
