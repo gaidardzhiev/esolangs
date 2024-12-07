@@ -16,13 +16,13 @@ void ii(b *i) {
 }
 
 void exm(b *i) {
-	size_t new_size = i->s * 2;
-	i->m = (unsigned char *)realloc(i->m, new_size);
+	size_t ns = i->s * 2;
+	i->m = (unsigned char *)realloc(i->m, ns);
 	if (i->m == NULL) {
 		fprintf(stderr, "memory allocation failed\n");
 		exit(EXIT_FAILURE);
 	}
-	i->s = new_size;
+	i->s = ns;
 }
 
 void interpret(const char *code) {
