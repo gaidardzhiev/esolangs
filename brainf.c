@@ -15,7 +15,7 @@ void ii(b *i) {
 	i->p = 0;
 }
 
-void expand_memory(b *i) {
+void exm(b *i) {
 	size_t new_size = i->s * 2;
 	i->m = (unsigned char *)realloc(i->m, new_size);
 	if (i->m == NULL) {
@@ -36,7 +36,7 @@ void interpret(const char *code) {
 		case '>':
 			i.p++;
 			if (i.p >= i.s) {
-				expand_memory(&i);
+				exm(&i);
 			}
 			break;
 		case '<':
