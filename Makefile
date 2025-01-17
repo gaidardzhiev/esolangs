@@ -13,6 +13,7 @@ whitespace: whitespace_arm.s whitespace_x86_64.s
 		$(AS) whitespace_i686.s -o whitespace;\
 	fi
 
+
 brainf: brainf.c
 	$(CC) brainf.c -o brainf
 
